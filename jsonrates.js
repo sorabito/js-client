@@ -1,5 +1,5 @@
 /**
- * Javascript client for jsonrates.com
+ * JavaScript client for jsonrates.com
  * Currency exchange rates and conversion API
  * @version 1.0.0
  * @author Jamil Soufan (@jamsouf)
@@ -295,9 +295,20 @@ var JR = (function() {
  */
 var JREQUEST = (function() {
     
+    /**
+     * Constants
+     */
     var ENDPOINT = 'http://jsonrates.com/{endpoint}/';
     var CALLBACK_NAME = 'callback';
+    
+    /**
+     * Container for public objects
+     */
     var exports = {};
+    
+    /**
+     * Counter for the created unique callback functions
+     */
     var cntr = 0;
     
     /**

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>QUnit tests for jsonrates.js</title>
+        <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.17.1.css">
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <script src="//code.jquery.com/qunit/qunit-1.17.1.js"></script>
+        <script src="jsonrates.js"></script>
+        <script>
+            JR.from('EUR').to('EUR').get(function(res) {
+                QUnit.test('Rate_For_Same_Currencies_Is_Exactly_One', function(assert) {
+                    assert.strictEqual(res, '1.00000000');
+                });
+            });
+            
+            JR.from('EUR').to('USD').get(function(res) {
+                QUnit.test('Valid_From_To_Rate_Has_Eight_Decimal_Places', function(assert) {
+                    assert.strictEqual(res.substring(res.indexOf('.') + 1).length, 8);
+                });
+            });
+        </script>
+    </body>
+</html>
