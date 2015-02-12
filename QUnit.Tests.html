@@ -11,15 +11,24 @@
         <script src="//code.jquery.com/qunit/qunit-1.17.1.js"></script>
         <script src="jsonrates.js"></script>
         <script>
+            /** ============================== Test ============================== */
             JR.from('EUR').to('EUR').get(function(res) {
                 QUnit.test('Rate_For_Same_Currencies_Is_Exactly_One', function(assert) {
                     assert.strictEqual(res, '1.00000000');
                 });
             });
             
-            JR.from('EUR').to('USD').get(function(res) {
+            /** ============================== Test ============================== */
+            JR.from('XBT').to('GBP').get(function(res) {
                 QUnit.test('Valid_From_To_Rate_Has_Eight_Decimal_Places', function(assert) {
                     assert.strictEqual(res.substring(res.indexOf('.') + 1).length, 8);
+                });
+            });
+            
+            /** ============================== Test ============================== */
+            JR.base('JPY').get(function(res) {
+                QUnit.test('All_Currencies_For_A_Base_Is_A_Large_List', function(assert) {
+                    assert.strictEqual(Object.keys(res).length > 100, true);
                 });
             });
         </script>

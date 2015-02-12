@@ -176,7 +176,7 @@ var JR = (function() {
          * @param {object} rsp Response from the request
          */
         callback: function(func, rsp) {
-            var result = params.base === null ? rsp.rate : rsp.rates;
+            var result = (typeof rsp.rate !== 'undefined') ? rsp.rate : rsp.rates;
             func(result);
         }
     };
@@ -206,7 +206,7 @@ var JR = (function() {
          * @param {object} rsp Response from the request
          */
         callback: function(func, rsp) {
-            var result =  params.base === null ? rsp.amount : rsp.amounts;
+            var result = (typeof rsp.amount !== 'undefined') ? rsp.amount : rsp.amounts;
             func(result);
         }
     };
@@ -237,7 +237,7 @@ var JR = (function() {
          * @param {object} rsp Response from the request
          */
         callback: function(func, rsp) {
-            var result =  rsp.rates;
+            var result = rsp.rates;
             func(result);
         }
     };
@@ -265,7 +265,7 @@ var JR = (function() {
          * @param {object} rsp Response from the request
          */
         callback: function(func, rsp) {
-            var result =  params.base === null ? rsp.rate : rsp.rates;
+            var result = (typeof rsp.rate !== 'undefined') ? rsp.rate : rsp.rates;
             func(result);
         }
     };
