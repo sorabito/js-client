@@ -137,35 +137,17 @@ var JR = (function() {
     /**
      * Process the request-callback
      * @param {number} reqid Request ID
-     * @param {string} endpoint The requested endpoint
      * @param {function} func Callback function from the caller
      * @param {object} response Response from the request
-     * @return {JR}
      */
-    exports.callback = function(reqid, endpoint, func, response) {
+    exports.callback = function(reqid, func, response) {
         JREQUEST.delete(reqid);
         
         if (typeof response.error !== 'undefined') {
             response = new Error(response.error);
         }
         
-        switch(endpoint) {
-            case 'get':
-                get.callback(func, response);
-                break;
-            case 'convert':
-                convert.callback(func, response);
-                break;
-            case 'historical':
-                historical.callback(func, response);
-                break;
-            case 'locale':
-                locale.callback(func, response);
-                break;
-            case 'fetch':
-                fetch.callback(func, response);
-                break;
-        }
+        func(response);
     };
     
     /**
@@ -183,15 +165,6 @@ var JR = (function() {
                 from: params.from,
                 to: params.to
             });
-        },
-        
-        /**
-         * Process the get-callback
-         * @param {function} func Callback function from the caller
-         * @param {object} rsp Response from the request
-         */
-        callback: function(func, rsp) {
-            func(getResult(rsp, rsp.rate, rsp.rates));
         }
     };
     
@@ -212,15 +185,6 @@ var JR = (function() {
                 amount: params.amount,
                 inverse: params.inverse
             });
-        },
-        
-        /**
-         * Process the convert-callback
-         * @param {function} func Callback function from the caller
-         * @param {object} rsp Response from the request
-         */
-        callback: function(func, rsp) {
-            func(getResult(rsp, rsp.amount, rsp.amounts));
         }
     };
     
@@ -242,15 +206,6 @@ var JR = (function() {
                 dateStart: params.dateStart,
                 dateEnd: params.dateEnd
             });
-        },
-        
-        /**
-         * Process the historical-callback
-         * @param {function} func Callback function from the caller
-         * @param {object} rsp Response from the request
-         */
-        callback: function(func, rsp) {
-            func(getResult(rsp, rsp.rates, rsp.rates));
         }
     };
     
@@ -269,15 +224,6 @@ var JR = (function() {
                 from: params.from,
                 to: params.to
             });
-        },
-        
-        /**
-         * Process the locale-callback
-         * @param {function} func Callback function from the caller
-         * @param {object} rsp Response from the request
-         */
-        callback: function(func, rsp) {
-            func(getResult(rsp, rsp.rate, rsp.rates));
         }
     };
     
@@ -303,15 +249,6 @@ var JR = (function() {
             send('fetch', func, {
                 list: params.list
             });
-        },
-        
-        /**
-         * Process the fetch-callback
-         * @param {function} func Callback function from the caller
-         * @param {object} rsp Response from the request
-         */
-        callback: function(func, rsp) {
-            func(getResult(rsp, rsp, rsp));
         }
     };
     
@@ -325,23 +262,6 @@ var JR = (function() {
         var url = JREQUEST.create(endpoint, func, params);
         url = (endpoint != 'fetch') ? url : fetch.getUrl(url);
         JREQUEST.execute(url);
-    };
-    
-    /**
-     * Detect from the response the result or the error
-     * @param {object} responseOrError The original response
-     * @param {object} resultIfDefined The result, if this value is defined
-     * @param {object} resultIfUndefined The result, if the second parameter is undefined
-     * @return {object} The detected result object (Error or String or JSONObject)
-     */
-    var getResult = function(responseOrError, resultIfDefined, resultIfUndefined) {
-        if (Object.prototype.toString.call(responseOrError) === '[object Error]') {
-            return responseOrError;
-        }
-        if (typeof resultIfDefined !== 'undefined') {
-            return resultIfDefined;
-        }
-        return resultIfUndefined;
     };
     
     exports.get = get.perform;

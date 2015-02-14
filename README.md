@@ -14,7 +14,7 @@ Download the file [`jsonrates.min.js`](/jsonrates.min.js) and include it in your
 Usage
 -----
 ``` js
-JR.from('EUR').to('USD').get(function(rate) {
-    console.log('Exchange rate is: ' + rate);
+JR.from('EUR').to('USD').get(function(result) {
+    console.log('Exchange rate is: ' + result.rate);
 });
 ```

@@ -32,7 +32,7 @@ var JREQUEST = (function() {
      * @return {string} Full url with query-parameters for the call
      */
     exports.create = function(endpoint, func, params) {
-        params.callback = createCallback(endpoint, func);
+        params.callback = createCallback(func);
         var query = buildQuery(params);
         
         return  ENDPOINT.replace('{endpoint}', endpoint) + '?' + query;
@@ -59,17 +59,16 @@ var JREQUEST = (function() {
     
     /**
      * Create for every request an unique callback-function
-     * @param {string} endpoint Endpoint of the request
      * @param {function} func Callback function from the caller
      * @return {string} Unique full-qualified name of the callback-function for jsonp
      */
-    var createCallback = function(endpoint, func) {
+    var createCallback = function(func) {
         cntr++;
         var reqid = cntr;
         var name = CALLBACK_NAME + reqid;
         
         JREQUEST[name] = function(response) {
-            JR.callback(reqid, endpoint, func, response);
+            JR.callback(reqid, func, response);
         };
         
         return 'JREQUEST.' + name;
