@@ -23,7 +23,8 @@ var JR = (function() {
             inverse: null,
             date: null,
             dateStart: null,
-            dateEnd: null
+            dateEnd: null,
+            list: null
     };
     
     /**
@@ -123,6 +124,17 @@ var JR = (function() {
     };
     
     /**
+     * Set the list
+     * @param {string} list
+     * @return {JR}
+     */
+    exports.list = function(list) {
+        params.list = list;
+        
+        return this;
+    };
+    
+    /**
      * Process the request-callback
      * @param {number} reqid Request ID
      * @param {string} endpoint The requested endpoint
@@ -134,7 +146,7 @@ var JR = (function() {
         JREQUEST.delete(reqid);
         
         if (typeof response.error !== 'undefined') {
-            throw 'JR-ERROR: ' + response.error;
+            response = new Error(response.error);
         }
         
         switch(endpoint) {
@@ -149,6 +161,9 @@ var JR = (function() {
                 break;
             case 'locale':
                 locale.callback(func, response);
+                break;
+            case 'fetch':
+                fetch.callback(func, response);
                 break;
         }
     };
@@ -176,8 +191,7 @@ var JR = (function() {
          * @param {object} rsp Response from the request
          */
         callback: function(func, rsp) {
-            var result = (typeof rsp.rate !== 'undefined') ? rsp.rate : rsp.rates;
-            func(result);
+            func(getResult(rsp, rsp.rate, rsp.rates));
         }
     };
     
@@ -206,8 +220,7 @@ var JR = (function() {
          * @param {object} rsp Response from the request
          */
         callback: function(func, rsp) {
-            var result = (typeof rsp.amount !== 'undefined') ? rsp.amount : rsp.amounts;
-            func(result);
+            func(getResult(rsp, rsp.amount, rsp.amounts));
         }
     };
     
@@ -237,8 +250,7 @@ var JR = (function() {
          * @param {object} rsp Response from the request
          */
         callback: function(func, rsp) {
-            var result = rsp.rates;
-            func(result);
+            func(getResult(rsp, rsp.rates, rsp.rates));
         }
     };
     
@@ -265,8 +277,41 @@ var JR = (function() {
          * @param {object} rsp Response from the request
          */
         callback: function(func, rsp) {
-            var result = (typeof rsp.rate !== 'undefined') ? rsp.rate : rsp.rates;
-            func(result);
+            func(getResult(rsp, rsp.rate, rsp.rates));
+        }
+    };
+    
+    /**
+     * Fetch static lists
+     */
+    var fetch = {
+        
+        /**
+         * Build the url to fetch the static list
+         * @param {string} url The prepared url in API endpoint format
+         * @return {string} The new url for the call
+         */
+        getUrl: function(url) {
+            return url.replace('fetch/?list=', '').replace('&', '.json?');
+        },
+        
+        /**
+         * Execute the fetch-request
+         * @param {function} func Callback function from the caller
+         */
+        perform: function(func) {
+            send('fetch', func, {
+                list: params.list
+            });
+        },
+        
+        /**
+         * Process the fetch-callback
+         * @param {function} func Callback function from the caller
+         * @param {object} rsp Response from the request
+         */
+        callback: function(func, rsp) {
+            func(getResult(rsp, rsp, rsp));
         }
     };
     
@@ -278,13 +323,32 @@ var JR = (function() {
      */
     var send = function(endpoint, func, params) {
         var url = JREQUEST.create(endpoint, func, params);
+        url = (endpoint != 'fetch') ? url : fetch.getUrl(url);
         JREQUEST.execute(url);
+    };
+    
+    /**
+     * Detect from the response the result or the error
+     * @param {object} responseOrError The original response
+     * @param {object} resultIfDefined The result, if this value is defined
+     * @param {object} resultIfUndefined The result, if the second parameter is undefined
+     * @return {object} The detected result object (Error or String or JSONObject)
+     */
+    var getResult = function(responseOrError, resultIfDefined, resultIfUndefined) {
+        if (Object.prototype.toString.call(responseOrError) === '[object Error]') {
+            return responseOrError;
+        }
+        if (typeof resultIfDefined !== 'undefined') {
+            return resultIfDefined;
+        }
+        return resultIfUndefined;
     };
     
     exports.get = get.perform;
     exports.convert = convert.perform;
     exports.historical = historical.perform;
     exports.locale = locale.perform;
+    exports.fetch = fetch.perform;
     
     return exports;
 })();
