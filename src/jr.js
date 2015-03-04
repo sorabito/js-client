@@ -24,7 +24,8 @@ var JR = (function() {
             date: null,
             dateStart: null,
             dateEnd: null,
-            list: null
+            list: null,
+            apiKey: null
     };
     
     /**
@@ -130,6 +131,17 @@ var JR = (function() {
      */
     exports.list = function(list) {
         params.list = list;
+        
+        return this;
+    };
+    
+    /**
+     * Set the API key
+     * @param {string} apiKey
+     * @return {JR}
+     */
+    exports.apikey = function(apiKey) {
+        params.apiKey = apiKey;
         
         return this;
     };
@@ -256,10 +268,11 @@ var JR = (function() {
      * Send the API request
      * @param {string} endpoint Endpoint of the request
      * @param {function} func Callback function from the caller
-     * @param {object} params Parameters of the request
+     * @param {object} reqParams Parameters of the request
      */
-    var send = function(endpoint, func, params) {
-        var url = JREQUEST.create(endpoint, func, params);
+    var send = function(endpoint, func, reqParams) {
+        reqParams.apiKey = params.apiKey;
+        var url = JREQUEST.create(endpoint, func, reqParams);
         url = (endpoint != 'fetch') ? url : fetch.getUrl(url);
         JREQUEST.execute(url);
     };

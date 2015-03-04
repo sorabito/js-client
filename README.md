@@ -12,6 +12,10 @@ Download the file [`jsonrates.min.js`](/jsonrates.min.js) and include it in your
 ``` html
 <script src="jsonrates.min.js"></script>
 ```
+Set your API key before first usage:
+``` js
+JR.apikey('YOUR-API-KEY');
+```
 
 Usage examples
 -----

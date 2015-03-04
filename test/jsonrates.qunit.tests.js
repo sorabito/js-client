@@ -1,3 +1,6 @@
+/** ============================== Start ============================== */
+JR.apikey('jr-demo-54beb0044ee6a01f303c798d89e');
+
 /** ============================== Test ============================== */
 JR.list('currencies').fetch(function(res) {
     QUnit.test('Static_List_Of_All_Currencies_Is_A_Large_List', function(assert) {
