@@ -24,6 +24,7 @@ var JR = (function() {
             date: null,
             dateStart: null,
             dateEnd: null,
+            period: null,
             list: null,
             apiKey: null
     };
@@ -96,6 +97,7 @@ var JR = (function() {
         params.date = date;
         params.dateStart = null;
         params.dateEnd = null;
+        params.period = null;
         
         return this;
     };
@@ -120,6 +122,17 @@ var JR = (function() {
     exports.dateEnd = function(dateEnd) {
         params.dateEnd = dateEnd;
         params.date = null;
+        
+        return this;
+    };
+    
+    /**
+     * Set the period
+     * @param {string} period
+     * @return {JR}
+     */
+    exports.period = function(period) {
+        params.period = period;
         
         return this;
     };
@@ -216,7 +229,8 @@ var JR = (function() {
                 to: params.to,
                 date: params.date,
                 dateStart: params.dateStart,
-                dateEnd: params.dateEnd
+                dateEnd: params.dateEnd,
+                period: params.period
             });
         }
     };

@@ -1,6 +1,9 @@
 CHANGELOG
 ===================
 
+* 1.2.1 (2015-03-09)
+ * Support for new historical parameter: `period`
+
 * 1.1.1 (2015-03-04)
  * Ability to set the API key
  * All endpoint-results contains all parameters, not only the rate or amount value

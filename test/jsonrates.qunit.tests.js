@@ -105,7 +105,7 @@ JR.from('JPY').to('SAR').dateStart('2015-01-01').dateEnd('2015-01-04').historica
         assert.strictEqual(
             Object.keys(res.rates).length === 4,
             true,
-            'Three result objects are available => response: ' + stringify(res)
+            'Four result objects are available => response: ' + stringify(res)
         );
         assert.strictEqual(
             res.rates['2015-01-02'].rate,
@@ -116,6 +116,27 @@ JR.from('JPY').to('SAR').dateStart('2015-01-01').dateEnd('2015-01-04').historica
             res.rates['2015-01-03'].utctime,
             '2015-01-03T23:50:02+01:00',
             'Utctime of third day is exactly correct => response: ' + stringify(res)
+        );
+    });
+});
+
+/** ============================== Test ============================== */
+JR.from('GBP').to('EUR').dateStart('2014-10-15').dateEnd('2015-02-15').period('month').historical(function(res) {
+    QUnit.test('Historical_Rates_With_Period_For_Five_Months_Gets_Five_Result_Objects', function(assert) {
+        assert.strictEqual(
+            Object.keys(res.rates).length === 5,
+            true,
+            'Five result objects are available => response: ' + stringify(res)
+        );
+        assert.strictEqual(
+            res.rates['2014-10-15'].rate,
+            '1.24837768',
+            'Rate of first month is exactly correct => response: ' + stringify(res)
+        );
+        assert.strictEqual(
+            res.rates['2015-02-15'].rate,
+            '1.35276970',
+            'Rate of last month is exactly correct => response: ' + stringify(res)
         );
     });
 });
