@@ -31,7 +31,7 @@ CL.source('USD').currencies('EUR').live(function(result) {
 });
 ```
 
-### "historical" endpoint - request historical quotes
+**"historical" endpoint - request historical quotes**
 
 ``` js
 /* Example: USDEUR on October 10th, 2001 */
@@ -40,7 +40,7 @@ CL.source('USD').currencies('EUR').date('2001-10-10').historical(function(result
 });
 ```
 
-### "convert" endpoint - convert currencies
+**"convert" endpoint - convert currencies**
 
 ``` js
 /* Example: Convert USD 10 to EUR */
@@ -49,7 +49,7 @@ CL.from('USD').to('EUR').amount('10').convert(function(result) {
 });
 ```
 
-### "timeframe" endpoint - request quotes for a specific timeframe
+**"timeframe" endpoint - request quotes for a specific timeframe**
 
 ``` js
 /* Example: USDEUR quotes between October and November 2010  */
@@ -58,7 +58,7 @@ CL.source('USD').currencies('EUR').start_date('2010-10-01').end_date('2010-11-01
 });
 ```
 
-### "change" endpoint - request change parameters for a specific timeframe
+**"change" endpoint - request change parameters for a specific timeframe**
 
 ``` js
 /* Example: USDEUR change between the years 2010 and 2015  */
