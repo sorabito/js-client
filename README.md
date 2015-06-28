@@ -14,7 +14,7 @@ Download the file [`currencylayer.min.js`](/currencylayer.min.js) and include it
 ``` html
 <script src="currencylayer.min.js"></script>
 ```
-Set your API key before first usage:
+Set your API Access Key:
 ``` js
 CL.access_key('YOUR_ACCESS_KEY');
 ```
