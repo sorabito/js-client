@@ -1,16 +1,13 @@
 /**
- * JavaScript client for jsonrates.com
- * Currency exchange rates and conversion API
- * Execute API calls and handle the callbacks
- * @author Jamil Soufan (@jamsouf)
- * @link http://jsonrates.com/
+ * JavaScript client for the currencylayer API
+ * @link https://currencylayer.com/
  */
-var JREQUEST = (function() {
+var CLREQUEST = (function() {
     
     /**
      * Constants
      */
-    var ENDPOINT = 'http://jsonrates.com/{endpoint}/';
+    var ENDPOINT = 'http://apilayer.net/api/{endpoint}';
     var CALLBACK_NAME = 'callback';
     
     /**
@@ -54,11 +51,11 @@ var JREQUEST = (function() {
      */
     exports.delete = function(reqid) {
         var name = CALLBACK_NAME + reqid;
-        delete JREQUEST[name];
+        delete CLREQUEST[name];
     };
     
     /**
-     * Create for every request an unique callback-function
+     * Create for every request a unique callback-function
      * @param {function} func Callback function from the caller
      * @return {string} Unique full-qualified name of the callback-function for jsonp
      */
@@ -67,11 +64,11 @@ var JREQUEST = (function() {
         var reqid = cntr;
         var name = CALLBACK_NAME + reqid;
         
-        JREQUEST[name] = function(response) {
-            JR.callback(reqid, func, response);
+        CLREQUEST[name] = function(response) {
+            CL.callback(reqid, func, response);
         };
         
-        return 'JREQUEST.' + name;
+        return 'CLREQUEST.' + name;
     };
     
     /**
