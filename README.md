@@ -31,7 +31,6 @@ CL.source('USD').currencies('EUR').live(function(result) {
 });
 ```
 
-<br>
 
 **"historical" endpoint - request historical quotes**
 
@@ -42,7 +41,6 @@ CL.source('USD').currencies('EUR').date('2001-10-10').historical(function(result
 });
 ```
 
-<br>
 
 **"convert" endpoint - convert currencies**
 
@@ -53,7 +51,6 @@ CL.from('USD').to('EUR').amount('10').convert(function(result) {
 });
 ```
 
-<br>
 
 **"timeframe" endpoint - request quotes for a specific timeframe**
 
@@ -64,7 +61,6 @@ CL.source('USD').currencies('EUR').start_date('2010-10-01').end_date('2010-11-01
 });
 ```
 
-<br>
 
 **"change" endpoint - request change parameters for a specific timeframe**
 
