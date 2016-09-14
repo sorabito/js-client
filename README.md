@@ -1,3 +1,5 @@
+# DEPRECATED
+
 Stay up to date by following @apilayernet on Twitter.
 ____________
 
