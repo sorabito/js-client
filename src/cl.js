@@ -25,12 +25,29 @@ var CL = (function() {
     };
     
     /**
+     * private variable
+     */
+    
+    var protocol = 'http';
+
+    /**
      * "access_key" currency parameter
      * @param {string} access_key
      * @return {CL}
      */
     exports.access_key = function(access_key) {
         params.access_key = access_key;
+        
+        return this;
+    };
+    
+    /**
+     * "protocol"
+     * @param {string} api access protocol
+     * @return {CL}
+     */
+    exports.set_protocol = function(prtcl) {
+        protocol = prtcl;
         
         return this;
     };
@@ -243,7 +260,7 @@ var CL = (function() {
      */
     var send = function(endpoint, func, reqParams) {
         reqParams.access_key = params.access_key;
-        var url = CLREQUEST.create(endpoint, func, reqParams);
+        var url = CLREQUEST.create(protocol, endpoint, func, reqParams);
         url = (endpoint != 'fetch') ? url : fetch.getUrl(url);
         CLREQUEST.execute(url);
     };

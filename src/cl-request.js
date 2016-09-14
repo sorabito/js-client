@@ -7,7 +7,7 @@ var CLREQUEST = (function() {
     /**
      * Constants
      */
-    var ENDPOINT = 'http://apilayer.net/api/{endpoint}';
+    var ENDPOINT = '{protocol}://apilayer.net/api/{endpoint}';
     var CALLBACK_NAME = 'callback';
     
     /**
@@ -28,11 +28,12 @@ var CLREQUEST = (function() {
      * @param {object} params Parameters of the request
      * @return {string} Full url with query-parameters for the call
      */
-    exports.create = function(endpoint, func, params) {
+    exports.create = function(protocol, endpoint, func, params) {
         params.callback = createCallback(func);
         var query = buildQuery(params);
-        
-        return  ENDPOINT.replace('{endpoint}', endpoint) + '?' + query;
+        var protocolString = protocol || 'http';
+        var requestUrl = ENDPOINT.replace('{endpoint}', endpoint) + '?' + query;
+        return requestUrl.replace('{protocol}',protocol);
     };
     
     /**
